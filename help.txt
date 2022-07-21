@@ -32,7 +32,9 @@ To escape special characters, use \\.
 
 Special characters are `\\\*\/\_\<\[\^{`.
 
-Standard escape character for Red is ^^, and it is used as usual here too. 
+Also !, ===, ---, space and tab in beginning of line may need escaping.
+
+Standard escape character for Red is ^^, and it is used as usual here too.  
 Especially, remember to use `\\^^\^{` if you want to escape starting-brace without matching closing-brace.
 
 ===Code
