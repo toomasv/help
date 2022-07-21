@@ -31,7 +31,7 @@ help: context [
 	]
 
 	;rt-ops: [#"*" <b> #"/" <i> #"_" <u>] 
-	inside-b?: inside-i?: inside-u?: no 
+	inside-b?: inside-i?: inside-u?: in-table?: no 
 	special: charset "*_/\{[<`"
 	line-end: [space some space newline]
 	digit: charset "0123456789"
@@ -43,7 +43,7 @@ help: context [
 	str: [#"^"" some [alpha | space] #"^""]
 	font-rule: [#"<" copy fnt to #">" skip]
 	link-rule: [#"[" copy txt to "](" 2 skip copy adr to #")" skip]
-	rt-rule: [;(inside?: no)
+	rt-rule: [
 		collect some [
 			#"\" keep skip
 		|	[
@@ -51,11 +51,12 @@ help: context [
 			|	#"/" keep (also either inside-i? [</i>][<i>] inside-i?: not inside-i?) 
 			|	#"_" keep (also either inside-u? [</u>][<u>] inside-u?: not inside-u?)
 			|	#"`" keep (<bg>) keep ('snow) keep (<font>) keep (["Consolas" 12]) 
-				opt [keep some #"`"] keep to #"`" skip opt [keep some #"`"] keep (</font>) keep (</bg>)
+				opt [keep some #"`"] keep to #"`" skip 
+				opt [keep some #"`"] keep (</font>) keep (</bg>)
 			|	"{#}" keep (</bg>)
 			|	"{#" copy bg to "#}" keep (<bg>) keep (to-word bg) 2 skip 
 			|	"<>" keep (</font>)
-			|	font-rule keep (<font>) keep (load fnt);(either single? fnt: load/all fnt [first fnt][fnt]) 
+			|	font-rule keep (<font>) keep (load fnt)
 			|	link-rule keep ('u/blue) keep (reduce [txt])(
 					repend links [length? sections 0x0 txt adr]
 				)
@@ -76,15 +77,17 @@ help: context [
 		| "===" section
 		| "---" subsect
 		| "!" note
+		| table
 		| example
 		| paragraph
 	]
 	text-line: [copy text to newline newline]
 	indented:  [some space thru newline]
+	table:     [copy tbl some [some space [#"+" | #"|"] thru newline] (emit-table tbl)]
 	paragraph: [copy para some [chars thru newline] (emit-para para)]
-	note: [copy para some [chars thru newline] (emit-note para)]
+	note:      [copy para some [chars thru newline] (emit-note para)]
 	example: [
-		copy code some [any newline indented];[indented | some newline indented]
+		copy code some [any newline indented]
 		(emit-code code)
 	]
 	section: [
@@ -122,18 +125,30 @@ help: context [
 		insert blk [<font> 12]
 		append blk [</font>]
 		rtb: rtd-layout blk
-		rtb/size/x: page-size/x - 40;460
+		rtb/size/x: page-size/x - 40
 		repend layo ['text as-pair 10 pos-y rtb]
 		sz: size-text rtb
 		pos-y: pos-y + sz/y + 10
 		poke sizes length? sizes pos-y
 	]
 
+	emit-table: func [data][
+		remove back tail data
+		blk: parse data rt-rule
+		rtb: rtd-layout blk
+		rtb/size/x: page-size/x - 20
+		append rtb/data reduce [as-pair 1 length? rtb/text "Consolas" 12]
+		sz: size-text rtb
+		repend layo ['text as-pair 0 pos-y rtb]
+		pos-y: pos-y + sz/y + 27
+		poke sizes length? sizes pos-y
+	]
+	
 	emit-code: func [code] [
 		remove back tail code
 		blk: reduce [<b> code </b>] 
 		rtb: rtd-layout blk
-		rtb/size/x: page-size/x - 20;480
+		rtb/size/x: page-size/x - 20
 		append rtb/data reduce [as-pair 1 length? rtb/text "Consolas"]
 		sz: size-text rtb
 		repend layo [
@@ -231,7 +246,7 @@ help: context [
 	]
 
 	main: layout compose [;/flags
-		title "DiaGrammar help"
+		title "Help"
 		on-key [
 			switch event/key [
 				up left [show-page this-page];[show-page this-page - 1]

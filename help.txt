@@ -53,6 +53,37 @@ You can alter code and play with it by ctrl-clicking on code.
 Short inline code is included between backticks ``...``.  
 Backticks themselves cannot be included in inline code except in the very beginning or in the very end, as in ```...```.
 
+===Table
+
+Poor man's table can be built from lines starting with some space (or tab) and followed by `+` or `|`. 
+
+E.g. table built with  
+
+` +--------+--------+-------------+  `  
+` | Cell1  | Cell2  | Cell3       |  `  
+` +--------+--------+-------------+  `  
+` | Text   | Text2  | Longer text |  `  
+` +--------+--------+-------------+  `
+
+will render as
+
+ +--------+--------+-------------+  
+ | Cell1  | Cell2  | Cell3       |  
+ +--------+--------+-------------+  
+ | Text1  | Text2  | Longer text |  
+ +--------+--------+-------------+  
+
+Notice 2 spaces in the end of each line - these ensure lines will break.
+
+After having built initial table with correct cell sizes, formatting may be added to cells:
+
+ +--------+--------+-------------+  
+ |{#leaf#} {green}Cell1  | Cell2  | Cell3{black}       {#}|  
+ +--------+--------+-------------+  
+ | *Text1*  | /Text2/  | _Longer text_ |  
+ +--------+--------+-------------+  
+
+
 ===Notes
 
 Notes are included by starting line with !. E.g.  
