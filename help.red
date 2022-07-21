@@ -32,14 +32,17 @@ help: context [
 
 	;rt-ops: [#"*" <b> #"/" <i> #"_" <u>] 
 	inside-b?: inside-i?: inside-u?: no 
-	special: charset "*_/\{[<"
+	special: charset "*_/\{[<`"
 	line-end: [space some space newline]
 	digit: charset "0123456789"
 	int: [some digit]
 	alpha: charset [#"a" - #"z" #"A" - #"Z"]
+	space: charset " ^-"
+	chars: complement charset " ^-^/"
+
 	str: [#"^"" some [alpha | space] #"^""]
-	font-rule: [#"[" copy fnt to #"]" skip]
-	link-rule: [#"<" copy txt to ">(" 2 skip copy adr to #")" skip]
+	font-rule: [#"<" copy fnt to #">" skip]
+	link-rule: [#"[" copy txt to "](" 2 skip copy adr to #")" skip]
 	rt-rule: [;(inside?: no)
 		collect some [
 			#"\" keep skip
@@ -47,9 +50,11 @@ help: context [
 				#"*" keep (also either inside-b? [</b>][<b>] inside-b?: not inside-b?) 
 			|	#"/" keep (also either inside-i? [</i>][<i>] inside-i?: not inside-i?) 
 			|	#"_" keep (also either inside-u? [</u>][<u>] inside-u?: not inside-u?)
+			|	#"`" keep (<bg>) keep ('snow) keep (<font>) keep (["Consolas" 12]) 
+				opt [keep some #"`"] keep to #"`" skip opt [keep some #"`"] keep (</font>) keep (</bg>)
 			|	"{#}" keep (</bg>)
 			|	"{#" copy bg to "#}" keep (<bg>) keep (to-word bg) 2 skip 
-			|	"[]" keep (</font>)
+			|	"<>" keep (</font>)
 			|	font-rule keep (<font>) keep (load fnt);(either single? fnt: load/all fnt [first fnt][fnt]) 
 			|	link-rule keep ('u/blue) keep (reduce [txt])(
 					repend links [length? sections 0x0 txt adr]
@@ -62,9 +67,6 @@ help: context [
 		] 
 	]
 	
-	space: charset " ^-"
-	chars: complement charset " ^-^/"
-
 	rules: [title some parts]
 
 	title: [text-line (title-line: text)]
@@ -135,7 +137,7 @@ help: context [
 		append rtb/data reduce [as-pair 1 length? rtb/text "Consolas"]
 		sz: size-text rtb
 		repend layo [
-			'fill-pen silver 
+			'fill-pen snow 
 			'box pos: as-pair 10 pos-y as-pair page-size/x - 20 pos/y + sz/y + 14 ;480
 			'fill-pen black
 		]
@@ -159,7 +161,10 @@ help: context [
 	]
 
 	show-example: func [code][
-		if xview [xy: xview/offset - 3x26  unview/only xview]
+		if xview [
+			;xy: xview/offset - 3x26  
+			unview/only xview
+		]
 		xcode: load/all code;face/text
 		if not block? xcode [xcode: reduce [xcode]] 
 		either here: select xcode either find [layout compose] what: second xcode [what]['view][
@@ -171,7 +176,10 @@ help: context [
 	]
 
 	show-edit-box: func [code sz][
-		if xview [xy: xview/offset - 8x31  unview/only xview]
+		if xview [
+			;xy: xview/offset - 8x31  
+			unview/only xview
+		]
 		xcode: load/all code;face/text
 		if not block? xcode [xcode: reduce [xcode]] 
 		either here: select xcode either find [layout compose] what:  second xcode [what]['view][
