@@ -1,0 +1,87 @@
+Red []
+{Example help text
+
+===Section
+
+Sections are started with `===` + section heading, followed by blank line.
+
+---Subsection
+
+Subsections are started with `---` + subsection heading, followed by blank line.
+
+===Text
+
+Text lines are continuously concatenated. 
+To break a line, 
+add two spaces in the end of it like this:  
+- in this way  
+- you can create  
+- lists
+
+Paragraphs are separated by blank line(s).
+
+===Emphasis
+
+For *bolding* use \*...\*,  
+for /italics/ use \/...\/,  
+for _underlining_ use \_...\_.
+
+===Escaping
+
+To escape special characters, use \\.
+
+Special characters are `\\\*\/\_\<\[\^{`.
+
+Standard escape character for Red is ^^, and it is used as usual here too. 
+Especially, remember to use `\\^^\^{` if you want to escape starting-brace without matching closing-brace.
+
+===Code
+
+Code examples are included by indenting by any number of spaces or tabs:
+
+ text "clicking executes"
+ area "Examples assume VID layout"
+   
+	result: text ""
+	do [repeat i 5 [append result/text i]]
+
+Clicking on code executes it, assuming VID layout.  
+You can alter code and play with it by ctrl-clicking on code.
+
+===Notes
+
+Notes are included by starting line with !. E.g.  
+
+\!Pay attention!
+
+will result in:
+
+!Pay attention!
+
+===Links
+
+Format for links is `\<link text>(link)`.
+
+Links can be internal or external.
+
+/Internal links/ link to help pages by refering to page name, like this: <Text>(Text).
+
+/External links/ of course refer to external pages, like this: <Red>(https://www.red-lang.org/).
+
+===Colors
+
+Text may be colored by declaring \{color}. E.g. \{orange} will result in {orange}orange color. 
+This color will be used for text until you declare {black}new color.
+
+Background color may be changed by \{#bg-color#} {#yellow#}and background coloring ended by \{#}{#}.
+
+===Font
+
+Font can be changed by \["font-name" size]. E.g. ["Courier New" 12] this is 12 point "Courier New" [].
+Altered font application is ended by \[].
+
+===Other
+
+You might want to use ☑ or other extended chars sometimes.
+
+}
