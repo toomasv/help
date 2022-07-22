@@ -1,6 +1,7 @@
 Red [
 	Title: "Help system"
 	Needs: 'View
+	Adapted-from: https://www.redlake-tech.com/tags/diagrammar/
 ]
 help: context [
 	page-size: 600x650
