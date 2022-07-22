@@ -5,17 +5,21 @@ Red []
 
 Sections are started with `===` + section heading, followed by blank line.
 
+`===Section`
+
 ---Subsection
 
 Subsections are started with `---` + subsection heading, followed by blank line.
+
+`---Subsection`
 
 ===Text
 
 Text lines are continuously concatenated. 
 To break a line, 
-add two spaces in the end of it like this:  
-- in this way  
-- you can create  
+add two spaces in the end of it like this:`  `  
+- in this way`  `  
+- you can create`  `  
 - lists
 
 Paragraphs are separated by blank line(s).
@@ -83,6 +87,7 @@ After having built initial table with correct cell sizes, formatting may be adde
  | *Text1*  | /Text2/  | _Longer text_ |  
  +--------+--------+-------------+  
 
+Font changes will be overrun, otherwise columns become misaligned.
 
 ===Notes
 

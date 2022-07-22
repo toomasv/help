@@ -31,7 +31,6 @@ help: context [
 		replace/all str #"^-" copy buf
 	]
 
-	;rt-ops: [#"*" <b> #"/" <i> #"_" <u>] 
 	inside-b?: inside-i?: inside-u?: in-table?: no 
 	special: charset "*_/\{[<`"
 	line-end: [space some space newline]
@@ -181,7 +180,7 @@ help: context [
 			;xy: xview/offset - 3x26  
 			unview/only xview
 		]
-		xcode: load/all code;face/text
+		xcode: load/all code
 		if not block? xcode [xcode: reduce [xcode]] 
 		either here: select xcode either find [layout compose] what: second xcode [what]['view][
 			xcode: here
@@ -196,7 +195,7 @@ help: context [
 			;xy: xview/offset - 8x31  
 			unview/only xview
 		]
-		xcode: load/all code;face/text
+		xcode: load/all code
 		if not block? xcode [xcode: reduce [xcode]] 
 		either here: select xcode either find [layout compose] what:  second xcode [what]['view][
 			xcode: here
@@ -288,7 +287,7 @@ help: context [
 											url! [browse lnk]
 											integer! [show-page page: lnk]
 											 ;[show-page page: index? find sections to-string lnk]
-											word! block! [show-page page: index? find sections form lnk]
+											word! block! [show-page page: index? find sections to-string lnk]
 										]
 									]
 								]
@@ -333,7 +332,8 @@ help: context [
 	] ;'modal
 	set 'show-help func [/page pg][
 		view/no-wait main
-		show-page self/page: any [pg 1]
+		self/page: either all [page word? pg][index? find sections to-string pg][any [pg 1]]
+		show-page self/page
 		xy: main/offset + either system/view/screens/1/size/x > 900 [
 			main/size * 1x0 + 8x0][300x300]
 		do-events
