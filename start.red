@@ -1,3 +1,2 @@
 Red [Needs: 'View]
-do %help.red
-view [button "Show Help" [show-help]]
+do %help.red show-help
