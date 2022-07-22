@@ -10,3 +10,5 @@ But initially, just save these into same folder and
 do %help.red`
 show-help
 ```
+
+or just `do %start.red`
